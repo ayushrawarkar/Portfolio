@@ -6,7 +6,7 @@ import LayoutWrapper from '../components/LayoutWrapper';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Your Name | Portfolio',
+  title: 'Anup Ingle | Portfolio',
   description: 'Professional Portfolio',
 };
 

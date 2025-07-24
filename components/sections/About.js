@@ -27,6 +27,73 @@ const fadeZoom = {
   },
 };
 
+const skills = [
+  'IoT & Embedded Systems',
+  'AI & Machine Learning',
+  'Cybersecurity',
+  'Wireless Sensor Networks',
+  'Blockchain',
+  'Edge & Cloud Computing',
+  'Academic Research',
+  'Technical Mentoring',
+];
+
+const timeline = [
+  {
+    icon: <FaGraduationCap />,
+    title: 'Ph.D. in Electronics and Communication Engineering',
+    description: 'Awarded by Savitribai Phule Pune University.',
+    base: 'bg-[#e0f7fa]',
+    hover: 'hover:bg-[#b2ebf2]',
+  },
+  {
+    icon: <FaLaptopCode />,
+    title: 'Assistant Professor at VIIT Pune',
+    description: 'Guiding students and leading innovative research.',
+    base: 'bg-[#fce4ec]',
+    hover: 'hover:bg-[#f8bbd0]',
+  },
+  {
+    icon: <FaLightbulb />,
+    title: '80+ Publications & 20+ Years Experience',
+    description: 'Specializing in WSN, IoT, AI, and advanced computing.',
+    base: 'bg-[#f3e5f5]',
+    hover: 'hover:bg-[#ce93d8]',
+  },
+];
+
+const stats = [
+  { label: 'Publications', count: 80, base: 'bg-[#e0f7fa]', hover: 'hover:bg-[#b2ebf2]' },
+  { label: 'Years Experience', count: 20, base: 'bg-[#fff3e0]', hover: 'hover:bg-[#ffe0b2]' },
+  { label: 'Students Mentored', count: 200, base: 'bg-[#f3e5f5]', hover: 'hover:bg-[#ce93d8]' },
+  { label: 'Projects Guided', count: 50, base: 'bg-[#fce4ec]', hover: 'hover:bg-[#f8bbd0]' },
+];
+
+function StatCard({ count, label, base, hover }) {
+  const motionVal = useMotionValue(0);
+  const springVal = useSpring(motionVal, { duration: 2 });
+  const displayVal = useTransform(springVal, (val) => `${Math.floor(val)}+`);
+  const [ref, inView] = useInView({ triggerOnce: false });
+
+  useEffect(() => {
+    if (inView) motionVal.set(count);
+    else motionVal.set(0);
+  }, [inView, count]);
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={fadeZoom}
+      initial="hidden"
+      animate="visible"
+      className={`${base} ${hover} shadow-md p-6 rounded-xl border transition duration-300 hover:shadow-lg hover:scale-105`}
+    >
+      <motion.div className="text-3xl font-bold text-teal-700">{displayVal}</motion.div>
+      <div className="text-sm text-gray-600 mt-2">{label}</div>
+    </motion.div>
+  );
+}
+
 export default function AboutMe() {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.1 });
@@ -34,69 +101,7 @@ export default function AboutMe() {
   useEffect(() => {
     if (inView) controls.start('visible');
     else controls.start('hidden');
-  }, [inView]);
-
-  const skills = [
-    'IoT & Embedded Systems',
-    'AI & Machine Learning',
-    'Cybersecurity',
-    'Wireless Sensor Networks',
-    'Blockchain',
-    'Edge & Cloud Computing',
-    'Academic Research',
-    'Technical Mentoring',
-  ];
-
-  const timeline = [
-    {
-      icon: <FaGraduationCap />,
-      title: 'Ph.D. in Electronics and Communication Engineering',
-      description: 'Awarded by Savitribai Phule Pune University.',
-      base: 'bg-[#e0f7fa]',
-      hover: 'hover:bg-[#b2ebf2]',
-    },
-    {
-      icon: <FaLaptopCode />,
-      title: 'Professor at VIT, Pune',
-      description: 'Guiding students and leading innovative research.',
-      base: 'bg-[#fce4ec]',
-      hover: 'hover:bg-[#f8bbd0]',
-    },
-    {
-      icon: <FaLightbulb />,
-      title: '80+ Publications & 20+ Years Experience',
-      description: 'Specializing in WSN, IoT, AI, and advanced computing.',
-      base: 'bg-[#f3e5f5]',
-      hover: 'hover:bg-[#ce93d8]',
-    },
-  ];
-
-  const stats = [
-    {
-      label: 'Publications',
-      count: 80,
-      base: 'bg-[#e0f7fa]',
-      hover: 'hover:bg-[#b2ebf2]',
-    },
-    {
-      label: 'Years Experience',
-      count: 20,
-      base: 'bg-[#fff3e0]',
-      hover: 'hover:bg-[#ffe0b2]',
-    },
-    {
-      label: 'Students Mentored',
-      count: 200,
-      base: 'bg-[#f3e5f5]',
-      hover: 'hover:bg-[#ce93d8]',
-    },
-    {
-      label: 'Projects Guided',
-      count: 50,
-      base: 'bg-[#fce4ec]',
-      hover: 'hover:bg-[#f8bbd0]',
-    },
-  ];
+  }, [inView, controls]);
 
   return (
     <section
@@ -152,9 +157,7 @@ export default function AboutMe() {
               className={`${item.base} ${item.hover} rounded-xl shadow p-6 border transition duration-300 hover:shadow-lg hover:scale-105`}
             >
               <div className="text-teal-700 text-3xl mb-3">{item.icon}</div>
-              <h4 className="font-semibold text-gray-800 text-lg mb-1">
-                {item.title}
-              </h4>
+              <h4 className="font-semibold text-gray-800 text-lg mb-1">{item.title}</h4>
               <p className="text-gray-600 text-sm">{item.description}</p>
             </motion.div>
           ))}
@@ -162,33 +165,9 @@ export default function AboutMe() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-20">
-          {stats.map((item, idx) => {
-            const motionVal = useMotionValue(0);
-            const springVal = useSpring(motionVal, { duration: 2 });
-            const displayVal = useTransform(springVal, (val) => `${Math.floor(val)}+`);
-            const [refStat, inViewStat] = useInView({ triggerOnce: false });
-
-            useEffect(() => {
-              if (inViewStat) motionVal.set(item.count);
-              else motionVal.set(0);
-            }, [inViewStat]);
-
-            return (
-              <motion.div
-                key={idx}
-                ref={refStat}
-                variants={fadeZoom}
-                initial="hidden"
-                animate={controls}
-                className={`${item.base} ${item.hover} shadow-md p-6 rounded-xl border transition duration-300 hover:shadow-lg hover:scale-105`}
-              >
-                <motion.div className="text-3xl font-bold text-teal-700">
-                  {displayVal}
-                </motion.div>
-                <div className="text-sm text-gray-600 mt-2">{item.label}</div>
-              </motion.div>
-            );
-          })}
+          {stats.map((item, idx) => (
+            <StatCard key={idx} {...item} />
+          ))}
         </div>
 
         {/* Contact */}
@@ -199,20 +178,21 @@ export default function AboutMe() {
           className="flex flex-wrap justify-center gap-4"
         >
           <a
-            href="mailto:anup.ingle@vit.edu"
+            href="mailto:anup.ingle@viit.ac.in"
             className="flex items-center gap-2 px-5 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition"
           >
             <FaEnvelope /> Email
           </a>
           <a
-            href="tel:+919999999999"
+            href="tel:+919325383604"
             className="flex items-center gap-2 px-5 py-2 bg-white border text-gray-700 rounded-full hover:bg-gray-100 transition"
           >
             <FaPhoneAlt /> Call
           </a>
           <a
-            href="https://linkedin.com/in/anupingle"
+            href="https://linkedin.com/in/anup-ingle-bb56a1148"
             target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-2 bg-[#eef6f5] border border-gray-200 text-gray-700 rounded-full hover:bg-[#d0ece9] transition"
           >
             <FaLinkedin /> LinkedIn

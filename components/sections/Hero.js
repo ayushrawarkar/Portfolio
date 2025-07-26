@@ -86,7 +86,7 @@ export default function HeroSection() {
                 >
                     <div className="relative group rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300">
                         <Image
-                            src="/New_profile.png"
+                            src="/profile3.png"
                             alt="Dr. Anup Ingle"
                             width={300}
                             height={300}
@@ -96,7 +96,7 @@ export default function HeroSection() {
                     </div>
                     <div className="mt-4 text-center">
                         <h3 className="text-xl font-semibold text-gray-800">Dr. Anup Ingle</h3>
-                        <p className="text-sm text-gray-500">Assistant Professor, Department of E & TC</p>
+                        <p className="text-sm text-gray-500">Assistant Professor, Department of E&TC</p>
                     </div>
                 </motion.div>
             </div>

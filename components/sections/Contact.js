@@ -70,14 +70,12 @@ export default function Contact() {
               <ContactDetail
                 icon={<FiPhone size={18} className="text-cyan-600" />}
                 label="Phone"
-                value="+91-9999999999 (Primary)"
-                secondValue="+91-9888888888 (Secondary)"
+                value="+91-9325383604 (Primary)"   
               />
               <ContactDetail
                 icon={<FiMail size={18} className="text-cyan-600" />}
                 label="Email"
-                value="xyz@viit.ac.in(Official)"
-                secondValue="xyz.yyy@gmail.com (Personal)"
+                value="anup.ingale@viit.ac.in(Official)"
               />
               <ContactDetail
                 icon={<FiMapPin size={18} className="text-cyan-600" />}

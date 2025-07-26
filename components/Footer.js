@@ -45,23 +45,17 @@ export default function Footer() {
           <div className="space-y-3 text-sm text-gray-400 mb-4">
             <div className="flex items-center gap-2">
               <Mail size={16} />
-              <Link href="mailto:aingle@sinhgad.edu" className="hover:text-teal-400 transition">
-                xyz@viit.ac.in
-              </Link>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail size={16} />
               <Link href="mailto:anup.ingle@gmail.com" className="hover:text-teal-400 transition">
-                xyz.xyz@gmail.com
+               anup.ingale@viit.ac.in(Official)
               </Link>
             </div>
           </div>
 
           <div className="flex gap-4">
-            <Link href="https://linkedin.com/in/anup-ingle" target="_blank" className="hover:text-teal-400 transition">
+            <Link href="https://www.linkedin.com/in/dr-anup-ingle-bb56a1148/" target="_blank" className="hover:text-teal-400 transition">
               <Linkedin size={20} />
             </Link>
-            <Link href="https://scholar.google.com/citations?user=PROFILE_ID" target="_blank" className="hover:text-teal-400 transition">
+            <Link href="https://scholar.google.com/citations?user=rz3NE4kAAAAJ&hl=en" target="_blank" className="hover:text-teal-400 transition">
               <BookOpen size={20} />
             </Link>
             <Link href="https://github.com" target="_blank" className="hover:text-teal-400 transition">

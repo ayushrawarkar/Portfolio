@@ -64,7 +64,7 @@ const timeline = [
 
 const stats = [
   { label: 'Publications', count: 80, base: 'bg-[#e0f7fa]', hover: 'hover:bg-[#b2ebf2]' },
-  { label: 'Years Experience', count: 20, base: 'bg-[#fff3e0]', hover: 'hover:bg-[#ffe0b2]' },
+  { label: 'Years Experience', count: 18, base: 'bg-[#fff3e0]', hover: 'hover:bg-[#ffe0b2]' },
   { label: 'Students Mentored', count: 200, base: 'bg-[#f3e5f5]', hover: 'hover:bg-[#ce93d8]' },
   { label: 'Projects Guided', count: 50, base: 'bg-[#fce4ec]', hover: 'hover:bg-[#f8bbd0]' },
 ];
@@ -190,7 +190,7 @@ export default function AboutMe() {
             <FaPhoneAlt /> Call
           </a>
           <a
-            href="https://linkedin.com/in/anup-ingle-bb56a1148"
+            href="https://www.linkedin.com/in/dr-anup-ingle-bb56a1148/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-2 bg-[#eef6f5] border border-gray-200 text-gray-700 rounded-full hover:bg-[#d0ece9] transition"

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { FiPhone, FiMapPin, FiMail, FiGlobe, FiClock, FiUser } from 'react-icons/fi';
+import { FiPhone, FiMapPin, FiMail, FiClock, FiUser } from 'react-icons/fi';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -19,49 +19,47 @@ export default function Contact() {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: false });
 
   useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    } else {
-      controls.start('hidden');
-    }
+    if (inView) controls.start('visible');
+    else controls.start('hidden');
   }, [inView]);
 
   return (
-    <section ref={ref} className="py-16 bg-[#f0fdfa] overflow-x-hidden" id="contact">
+    <section ref={ref} className="py-12 md:py-16 bg-[#f0fdfa]" id="contact">
       <motion.div
         variants={fadeVariant}
         initial="hidden"
         animate={controls}
-        className="max-w-6xl mx-auto px-6 shadow-2xl rounded-2xl bg-white"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 shadow-2xl rounded-2xl bg-white"
       >
         {/* Heading */}
         <motion.div
           variants={fadeVariant}
           initial="hidden"
           animate={controls}
-          className="text-center pt-10 mb-8"
+          className="text-center pt-8 mb-8 px-2"
         >
-          <h2 className="text-3xl font-semibold text-gray-800 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2">
             Academic Inquiries & Collaboration
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
             Reach out for research collaborations, student guidance, or academic discussions
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 p-8">
-          {/* Left Contact Info Card */}
+        {/* Grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 p-4 sm:p-6 md:p-8">
+          {/* Left Contact Info */}
           <motion.div
             variants={fadeVariant}
             initial="hidden"
             animate={controls}
-            className="bg-[#f0fbfc] text-gray-900 rounded-xl p-8 shadow-md"
+            className="bg-[#f0fbfc] text-gray-900 rounded-xl p-6 sm:p-8 shadow-md w-full"
           >
-            <h3 className="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">
               Contact Information
             </h3>
 
-            <div className="space-y-6">
+            <div className="space-y-5 sm:space-y-6">
               <ContactDetail
                 icon={<FiUser size={18} className="text-cyan-600" />}
                 label="Name"
@@ -70,12 +68,13 @@ export default function Contact() {
               <ContactDetail
                 icon={<FiPhone size={18} className="text-cyan-600" />}
                 label="Phone"
-                value="+91-9325383604 (Primary)"   
+                value="+91-9325383604 (Primary)"
               />
               <ContactDetail
                 icon={<FiMail size={18} className="text-cyan-600" />}
                 label="Email"
-                value="anup.ingale@viit.ac.in(Official)"
+                value="anup.ingle@viit.ac.in"
+                isEmail
               />
               <ContactDetail
                 icon={<FiMapPin size={18} className="text-cyan-600" />}
@@ -89,7 +88,6 @@ export default function Contact() {
                 value="Mon-Fri: 10:00 AM - 5:00 PM"
                 secondValue="By appointment only"
               />
-             
             </div>
           </motion.div>
 
@@ -98,9 +96,9 @@ export default function Contact() {
             variants={fadeVariant}
             initial="hidden"
             animate={controls}
-            className="space-y-5"
+            className="space-y-5 w-full"
           >
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name *
@@ -109,7 +107,7 @@ export default function Contact() {
                   id="name"
                   type="text"
                   required
-                  className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-cyan-200"
+                  className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm sm:text-base outline-none focus:ring-2 focus:ring-cyan-200"
                 />
               </div>
               <div>
@@ -120,7 +118,7 @@ export default function Contact() {
                   id="email"
                   type="email"
                   required
-                  className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-cyan-200"
+                  className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm sm:text-base outline-none focus:ring-2 focus:ring-cyan-200"
                 />
               </div>
             </div>
@@ -132,7 +130,7 @@ export default function Contact() {
               <select
                 id="subject"
                 required
-                className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-cyan-200 bg-white"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm sm:text-base outline-none focus:ring-2 focus:ring-cyan-200 bg-white"
               >
                 <option value="">Select inquiry type</option>
                 <option value="research">Research Collaboration</option>
@@ -150,18 +148,18 @@ export default function Contact() {
                 id="message"
                 rows={4}
                 required
-                className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-cyan-200"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm sm:text-base outline-none focus:ring-2 focus:ring-cyan-200"
               ></textarea>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-start gap-2">
               <input
                 id="consent"
                 type="checkbox"
                 required
-                className="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-200"
+                className="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-200 mt-1"
               />
-              <label htmlFor="consent" className="ml-2 block text-sm text-gray-700">
+              <label htmlFor="consent" className="text-xs sm:text-sm text-gray-700">
                 I consent to the processing of my personal data for academic communication purposes
               </label>
             </div>
@@ -179,28 +177,37 @@ export default function Contact() {
   );
 }
 
-function ContactDetail({ icon, label, value, secondValue, isLink = false }) {
+function ContactDetail({ icon, label, value, secondValue, isLink = false, isEmail = false }) {
+  const content = isEmail ? (
+    <a
+      href={`mailto:${value}`}
+      className="text-sm sm:text-base text-cyan-600 hover:underline break-all"
+    >
+      {value}
+    </a>
+  ) : isLink ? (
+    <a
+      href={`https://${value}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-sm sm:text-base text-cyan-600 hover:underline break-all"
+    >
+      {value}
+    </a>
+  ) : (
+    <p className="text-sm sm:text-base text-gray-600 break-all">{value}</p>
+  );
+
   return (
     <div className="flex items-start gap-4">
       <div className="w-10 h-10 rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center flex-shrink-0">
         {icon}
       </div>
-      <div>
+      <div className="min-w-0">
         <p className="font-medium text-gray-700">{label}</p>
-        {isLink ? (
-          <a 
-            href={`https://${value}`} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-sm text-cyan-600 hover:underline"
-          >
-            {value}
-          </a>
-        ) : (
-          <p className="text-sm text-gray-600">{value}</p>
-        )}
+        {content}
         {secondValue && (
-          <p className="text-sm text-gray-600 mt-1">{secondValue}</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-1 break-words">{secondValue}</p>
         )}
       </div>
     </div>

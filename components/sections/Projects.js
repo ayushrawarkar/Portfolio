@@ -6,17 +6,26 @@ import {
   FiBook,
   FiPenTool,
   FiZap,
+  FiMapPin,
   FiCopy,
   FiList,
+  FiActivity,
+  FiDatabase,
   FiLayers,
   FiBriefcase,
   FiBookOpen,
+  FiCode,
   FiCpu,
+  FiWifi,
+  FiTool,
   FiUsers,
   FiGlobe,
+  FiClock,
+  FiMic ,
   FiExternalLink,
+  FiTarget,
 } from 'react-icons/fi';
-import { motion } from 'framer-motion';
+import { motion , AnimatePresence } from 'framer-motion';
 
 const tabs = [
   { name: 'Overview', icon: <FiList /> },
@@ -37,12 +46,9 @@ export default function AcademicPortfolio() {
   const [activeTab, setActiveTab] = useState('Overview');
 
   return (
-    <section
-      id="projects"
-      className="bg-gray-50 p-6 md:p-12 min-h-screen font-sans overflow-x-hidden"
-    >
+    <section id='projects' className="bg-gray-50 p-6 md:p-12 min-h-screen font-sans overflow-x-hidden">
       <div className="max-w-6xl mx-auto">
-        {/* Top Heading */}
+        {/* Heading */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,50 +58,69 @@ export default function AcademicPortfolio() {
           Dr. Anup Ingle – Academic Portfolio
         </motion.h1>
 
-        {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {tabs.map((tab) => (
-            <button
-              key={tab.name}
-              onClick={() => setActiveTab(tab.name)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition border ${
-                activeTab === tab.name
-                  ? 'bg-white text-gray-900 border-gray-400 shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-white hover:text-gray-900 hover:shadow'
-              }`}
-            >
-              {tab.icon}
-              <span className="hidden md:inline">{tab.name}</span>
-            </button>
-          ))}
+        {/* Tabs Navigation */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.name;
+            return (
+              <motion.button
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition relative overflow-hidden border
+                  ${isActive 
+                    ? 'bg-white text-gray-900 border-teal-400 shadow-lg' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-white hover:text-gray-900 hover:shadow'}
+                `}
+              >
+                {tab.icon}
+                <span className="hidden md:inline">{tab.name}</span>
+
+                {/* Active Highlight Effect */}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 border-2 border-teal-400 rounded-full"
+                    initial={false}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  />
+                )}
+              </motion.button>
+            );
+          })}
         </div>
 
         {/* Tab Content */}
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="bg-white shadow-2xl rounded-2xl p-6 md:p-10"
-        >
-          {activeTab === 'Overview' && <Overview />}
-          {activeTab === 'Interests' && <Interests />}
-          {activeTab === 'Technical Skills' && <TechSkills />}
-          {activeTab === 'Teaching' && <Teaching />}
-          {activeTab === 'Certifications' && <Certifications />}
-          {activeTab === 'Invited Talks' && <InvitedTalks />}
-          {activeTab === 'Research' && <Research />}
-          {activeTab === 'Journals' && <JournalPubs />}
-          {activeTab === 'Conferences' && <Conferences />}
-          {activeTab === 'Books' && <Books />}
-          {activeTab === 'Patents' && <Patents />}
-          {activeTab === 'Industry Interaction' && <IndustryInteraction />}
-        </motion.div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white shadow-2xl rounded-2xl p-6 md:p-10"
+          >
+            {activeTab === 'Overview' && <Overview />}
+            {activeTab === 'Interests' && <Interests />}
+            {activeTab === 'Technical Skills' && <TechSkills />}
+            {activeTab === 'Teaching' && <Teaching />}
+            {activeTab === 'Certifications' && <Certifications />}
+            {activeTab === 'Invited Talks' && <InvitedTalks />}
+            {activeTab === 'Research' && <Research />}
+            {activeTab === 'Journals' && <JournalPubs />}
+            {activeTab === 'Conferences' && <Conferences />}
+            {activeTab === 'Books' && <Books />}
+            {activeTab === 'Patents' && <Patents />}
+            {activeTab === 'Industry Interaction' && <IndustryInteraction />}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
 }
 
+/* Section Wrapper */
 const SectionWrapper = ({ title, children }) => (
   <div className="space-y-4">
     <h2 className="text-2xl font-semibold border-l-4 pl-3 border-teal-400">{title}</h2>
@@ -103,7 +128,7 @@ const SectionWrapper = ({ title, children }) => (
   </div>
 );
 
-// InfoBlock component for colored blocks
+/* InfoBlock */
 const InfoBlock = ({ color = 'teal', children }) => {
   const colorClasses = {
     teal: 'bg-teal-50 border-teal-200',
@@ -119,54 +144,72 @@ const InfoBlock = ({ color = 'teal', children }) => {
     </div>
   );
 };
-
 // Overview
 function Overview() {
-  return (
-    <div className="space-y-8">
-      <InfoBlock color="blue">
-        <SectionWrapper title="Professional Profile">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="font-medium text-lg">Current Position</h3>
-              <p>Assistant Professor, Department of Electronics & Telecommunication Engineering</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-lg">Education</h3>
-              <p>Ph.D. in Electronics & Communication Engineering</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-lg">Experience</h3>
-              <p>17+ years teaching experience<br />1+ year industry experience</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-lg">Research Focus</h3>
-              <p>Flow-based pattern matching to mitigate denial-of-service attacks on communication networks</p>
-            </div>
-          </div>
-        </SectionWrapper>
-      </InfoBlock>
+  const info = [
+    {
+      icon: <FiBriefcase className="text-blue-600" size={22} />,
+      title: "Current Position",
+      text: "Assistant Professor, Department of Electronics & Telecommunication Engineering"
+    },
+    {
+      icon: <FiBookOpen className="text-blue-600" size={22} />,
+      title: "Education",
+      text: "Ph.D. in Electronics & Communication Engineering"
+    },
+    {
+      icon: <FiClock className="text-blue-600" size={22} />,
+      title: "Experience",
+      text: "17+ years teaching experience\n1+ year industry experience"
+    },
+    {
+      icon: <FiTarget className="text-blue-600" size={22} />,
+      title: "Research Focus",
+      text: "Flow-based pattern matching to mitigate denial-of-service attacks on communication networks"
+    }
+  ];
 
-      <InfoBlock color="teal">
-        <SectionWrapper title="Professional Summary">
-          <p>
+  return (
+    <div className="space-y-10">
+      {/* Professional Profile */}
+      <SectionWrapper title="Professional Profile">
+        <div className="grid md:grid-cols-2 gap-6">
+          {info.map((item, index) => (
+            <div
+              key={index}
+              className="bg-blue-50 border border-blue-100 rounded-lg p-5 shadow-sm hover:shadow-md transition flex items-start space-x-3"
+            >
+              <div className="p-2 bg-white rounded-full shadow-sm">{item.icon}</div>
+              <div>
+                <h3 className="font-semibold text-gray-800">{item.title}</h3>
+                <p className="text-sm text-gray-700 whitespace-pre-line mt-1">{item.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionWrapper>
+
+      {/* Professional Summary */}
+      <SectionWrapper title="Professional Summary">
+        <div className="bg-teal-50 border border-teal-100 rounded-lg p-6 shadow-sm hover:shadow-md transition">
+          <p className="text-gray-700 leading-relaxed">
             Dr. Anup Ingle is an accomplished academic and researcher with expertise in computer networks, 
             security, and IoT. His research focuses on intrusion detection systems, DDoS attack mitigation, 
             and network anomaly detection. With extensive experience in both academia and industry, he has 
             published numerous papers in reputed journals and conferences, authored several textbooks, and 
             actively contributes to student development through industry collaborations and internships.
           </p>
-        </SectionWrapper>
-      </InfoBlock>
+        </div>
+      </SectionWrapper>
     </div>
   );
 }
+
 
 // Interests
 function Interests() {
   const researchInterests = [
     'Denial of Services Attacks (ICMP, UDP, TCP SYN and IP Spoofing, ARP Poisoning)',
-    'Intrusion Detection and Prevention System (Snort)',
     'Offline and Online Solution for Network Prevention',
     'Data Mining (Weka) and Cloud Computing',
     'Routing and Router Configuration',
@@ -185,37 +228,60 @@ function Interests() {
 
   return (
     <div className="space-y-8">
-      <InfoBlock color="purple">
-        <SectionWrapper title="Research Interests">
-          <ul className="list-disc list-inside space-y-2">
-            {researchInterests.map((interest, index) => (
-              <li key={index}>{interest}</li>
-            ))}
-          </ul>
-        </SectionWrapper>
-      </InfoBlock>
+      {/* Research Interests */}
+      <div>
+        <InfoBlock color="purple">
+          <SectionWrapper title="Research Interests">
+            <div className="flex items-center gap-2 mb-3 text-purple-700">
+              <FiCpu size={22} />
+              <span className="font-semibold">Core Research Domains</span>
+            </div>
+            <ul className="list-disc list-inside space-y-2">
+              {researchInterests.map((interest, index) => (
+                <li key={index} className="leading-relaxed">
+                  {interest}
+                </li>
+              ))}
+            </ul>
+          </SectionWrapper>
+        </InfoBlock>
+      </div>
 
-      <InfoBlock color="green">
-        <SectionWrapper title="Teaching Interests">
-          <ul className="list-disc list-inside space-y-2">
-            {teachingInterests.map((interest, index) => (
-              <li key={index}>{interest}</li>
-            ))}
-          </ul>
-        </SectionWrapper>
-      </InfoBlock>
+      {/* Teaching Interests */}
+      <div>
+        <InfoBlock color="green">
+          <SectionWrapper title="Teaching Interests">
+            <div className="flex items-center gap-2 mb-3 text-green-700">
+              <FiBookOpen size={22} />
+              <span className="font-semibold">Subjects & Areas</span>
+            </div>
+            <ul className="list-disc list-inside space-y-2">
+              {teachingInterests.map((interest, index) => (
+                <li key={index}>{interest}</li>
+              ))}
+            </ul>
+          </SectionWrapper>
+        </InfoBlock>
+      </div>
 
-      <InfoBlock color="amber">
-        <SectionWrapper title="Ultimate Research Goal">
-          <p className="font-medium">
-            To Design Hardware Firewall to prevent Network from various attacks
-          </p>
-        </SectionWrapper>
-      </InfoBlock>
+      {/* Ultimate Research Goal */}
+      <div>
+        <InfoBlock color="amber">
+          <SectionWrapper title="Ultimate Research Goal">
+            <div className="flex items-center gap-2 mb-2 text-amber-700">
+              <FiTarget size={22} />
+              <span className="font-semibold">Long-Term Vision</span>
+            </div>
+            <p className="font-medium text-gray-800 bg-amber-100 border border-amber-200 rounded-lg p-3">
+              To <span className="text-amber-700 font-semibold">Design Hardware Firewall </span> 
+              to prevent Networks from various attacks.
+            </p>
+          </SectionWrapper>
+        </InfoBlock>
+      </div>
     </div>
   );
 }
-
 // Technical Skills
 function TechSkills() {
   const networkSkills = [
@@ -245,45 +311,54 @@ function TechSkills() {
     'Machine Learning Implementation'
   ];
 
+  const SkillList = ({ items }) => (
+    <ul className="space-y-2 mt-2">
+      {items.map((skill, index) => (
+        <li
+          key={index}
+          className="flex items-center gap-2 bg-white/40 rounded-md px-3 py-1 border border-gray-200 hover:bg-white transition"
+        >
+          <span className="w-2 h-2 bg-teal-500 rounded-full"></span>
+          {skill}
+        </li>
+      ))}
+    </ul>
+  );
+
+  const SectionHeader = ({ icon: Icon, title, color }) => (
+    <div className="flex items-center gap-2 mb-3">
+      <Icon className={`text-${color}-700`} size={22} />
+      <span className="font-semibold text-gray-800">{title}</span>
+    </div>
+  );
+
   return (
     <div className="space-y-8">
       <InfoBlock color="blue">
-        <SectionWrapper title="Network Skills">
-          <ul className="list-disc list-inside space-y-2">
-            {networkSkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+        <SectionWrapper title="">
+          <SectionHeader icon={FiWifi} title="Network Skills" color="blue" />
+          <SkillList items={networkSkills} />
         </SectionWrapper>
       </InfoBlock>
 
       <InfoBlock color="purple">
-        <SectionWrapper title="Tools & Technologies">
-          <ul className="list-disc list-inside space-y-2">
-            {tools.map((tool, index) => (
-              <li key={index}>{tool}</li>
-            ))}
-          </ul>
+        <SectionWrapper title="">
+          <SectionHeader icon={FiTool} title="Tools & Technologies" color="purple" />
+          <SkillList items={tools} />
         </SectionWrapper>
       </InfoBlock>
 
       <InfoBlock color="teal">
-        <SectionWrapper title="Programming Languages">
-          <ul className="list-disc list-inside space-y-2">
-            {programming.map((lang, index) => (
-              <li key={index}>{lang}</li>
-            ))}
-          </ul>
+        <SectionWrapper title="">
+          <SectionHeader icon={FiCode} title="Programming Languages" color="teal" />
+          <SkillList items={programming} />
         </SectionWrapper>
       </InfoBlock>
 
       <InfoBlock color="green">
-        <SectionWrapper title="Other Technical Skills">
-          <ul className="list-disc list-inside space-y-2">
-            {otherSkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+        <SectionWrapper title="">
+          <SectionHeader icon={FiCpu} title="Other Technical Skills" color="green" />
+          <SkillList items={otherSkills} />
         </SectionWrapper>
       </InfoBlock>
     </div>
@@ -310,22 +385,42 @@ function Teaching() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
+      {/* Courses Taught Section */}
       <InfoBlock color="blue">
         <SectionWrapper title="Courses Taught">
-          <ul className="list-disc list-inside space-y-2">
+          <div className="flex items-center gap-2 mb-4 text-blue-700">
+            <FiBookOpen size={22} />
+            <span className="font-semibold">Subjects & Topics</span>
+          </div>
+          <ul className="space-y-2">
             {coursesTaught.map((course, index) => (
-              <li key={index}>{course}</li>
+              <li
+                key={index}
+                className="bg-blue-50 border border-blue-100 rounded-md px-3 py-2 text-gray-800 hover:bg-blue-100 transition"
+              >
+                {course}
+              </li>
             ))}
           </ul>
         </SectionWrapper>
       </InfoBlock>
 
+      {/* Project Guidance Section */}
       <InfoBlock color="purple">
         <SectionWrapper title="Project Guidance">
-          <ul className="list-disc list-inside space-y-2">
+          <div className="flex items-center gap-2 mb-4 text-purple-700">
+            <FiUsers size={22} />
+            <span className="font-semibold">Mentorship & Supervision</span>
+          </div>
+          <ul className="space-y-2">
             {projectGuidance.map((project, index) => (
-              <li key={index}>{project}</li>
+              <li
+                key={index}
+                className="bg-purple-50 border border-purple-100 rounded-md px-3 py-2 text-gray-800 hover:bg-purple-100 transition"
+              >
+                {project}
+              </li>
             ))}
           </ul>
         </SectionWrapper>
@@ -333,82 +428,123 @@ function Teaching() {
     </div>
   );
 }
+
 
 // Certifications
 function Certifications() {
+  const certs = [
+    {
+      name: "Cisco Certified Network Associate (CCNA)",
+      details: "Score: 100%",
+      link: "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html",
+      linkText: "About CCNA",
+      provider: "Cisco",
+      year: "2022"
+    },
+    {
+      name: "Advanced Diploma in Computer Hardware and Networking (ADCHN)",
+      details: "Jetking, Noida | First Class (66.00%)",
+      link: "https://www.jetking.com/",
+      linkText: "Jetking Website",
+      provider: "Jetking",
+      year: "2021"
+    }
+  ];
+
   return (
-    <div className="space-y-8">
-      <InfoBlock color="teal">
-        <SectionWrapper title="Professional Certifications">
-          <ul className="list-disc list-inside space-y-2">
-            <li>
-              <strong>Cisco Certified Network Associate (CCNA)</strong>
-              <br />
-              Score: 100%
-              <br />
-              <a href="https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="text-blue-600 hover:underline inline-flex items-center">
-                About CCNA <FiExternalLink className="ml-1" size={14} />
-              </a>
-            </li>
-            <li>
-              <strong>Advanced Diploma in Computer Hardware and Networking (ADCHN)</strong>
-              <br />
-              Jetking, Noida | First Class (66.00%)
-              <br />
-              <a href="https://www.jetking.com/" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="text-blue-600 hover:underline inline-flex items-center">
-                Jetking Website <FiExternalLink className="ml-1" size={14} />
-              </a>
-            </li>
-          </ul>
-        </SectionWrapper>
-      </InfoBlock>
-    </div>
+    <SectionWrapper title="Professional Certifications">
+      <div className="grid md:grid-cols-2 gap-8 mt-6">
+        {certs.map((cert, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative bg-green-50 border border-green-100 rounded-lg p-6 shadow-sm hover:shadow-md transition group min-h-[200px] flex flex-col justify-between"
+          >
+            {/* Year Badge */}
+            <span className="absolute top-3 right-3 bg-green-100 text-green-800 text-xs font-semibold px-3 py-0.5 rounded-full shadow-sm">
+              {cert.year}
+            </span>
+
+            <div>
+              {/* Icon + Title */}
+              <div className="flex items-center mb-3">
+                <FiAward className="text-green-600 mr-2 flex-shrink-0" size={24} />
+                <h3 className="font-semibold text-gray-800 text-lg">{cert.name}</h3>
+              </div>
+
+              {/* Details */}
+              <p className="text-sm text-gray-700 mb-1">{cert.details}</p>
+              <p className="text-xs text-gray-500 mb-2">Provider: {cert.provider}</p>
+            </div>
+
+            {/* Link */}
+            <a
+              href={cert.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-green-700 hover:underline text-sm mt-3"
+            >
+              {cert.linkText} <FiExternalLink className="ml-1" size={14} />
+            </a>
+          </motion.div>
+        ))}
+      </div>
+    </SectionWrapper>
   );
 }
-
 // Invited Talks
 function InvitedTalks() {
+  const talks = [
+    {
+      college: "Bharti Vidyapeeth Women's College of Engineering, Pune",
+      topic: "Computer Network",
+      link: "https://www.bvwomenscollege.edu.in/"
+    },
+    {
+      college: "Trinity College of Engineering and Research, Pune",
+      topic: "Computer Network and Architecture",
+      link: "https://www.trinityengg.edu.in/"
+    }
+  ];
+
   return (
     <div className="space-y-8">
       <InfoBlock color="purple">
         <SectionWrapper title="Guest Lectures">
-          <ul className="list-disc list-inside space-y-2">
-            <li>
-              <strong>Bharti Vidyapeeth Women's College of Engineering, Pune</strong>
-              <br />
-              Topic: 'Computer Network'
-              <br />
-              <a href="https://www.bvwomenscollege.edu.in/" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="text-blue-600 hover:underline inline-flex items-center">
-                College Website <FiExternalLink className="ml-1" size={14} />
-              </a>
-            </li>
-            <li>
-              <strong>Trinity College of Engineering and Research, Pune</strong>
-              <br />
-              Topic: 'Computer Network and Architecture'
-              <br />
-              <a href="https://www.trinityengg.edu.in/" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="text-blue-600 hover:underline inline-flex items-center">
-                College Website <FiExternalLink className="ml-1" size={14} />
-              </a>
-            </li>
-          </ul>
+          <div className="flex items-center gap-2 mb-4 text-purple-700">
+            <FiMic size={22} />
+            <span className="font-semibold">Invited Talks & Sessions</span>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            {talks.map((talk, index) => (
+              <div
+                key={index}
+                className="bg-purple-50 border border-purple-100 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+              >
+                <h3 className="font-semibold text-gray-800">{talk.college}</h3>
+                <p className="text-sm text-gray-700 mt-1">
+                  <span className="font-medium text-purple-700">Topic:</span> {talk.topic}
+                </p>
+                <a
+                  href={talk.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline inline-flex items-center mt-2 text-sm"
+                >
+                  College Website <FiExternalLink className="ml-1" size={14} />
+                </a>
+              </div>
+            ))}
+          </div>
         </SectionWrapper>
       </InfoBlock>
     </div>
   );
 }
+
 
 // Research
 function Research() {
@@ -445,31 +581,53 @@ function Research() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
+      {/* Research Focus Areas */}
       <InfoBlock color="blue">
         <SectionWrapper title="Research Focus Areas">
-          <ul className="list-disc list-inside space-y-2">
+          <div className="flex items-center gap-2 mb-3 text-blue-700">
+            <FiCpu size={22} />
+            <span className="font-semibold">Core Domains</span>
+          </div>
+          <ul className="space-y-2">
             {researchFocus.map((area, index) => (
-              <li key={index}>{area}</li>
+              <li
+                key={index}
+                className="bg-blue-50 border border-blue-100 rounded-md px-3 py-2 text-gray-800 hover:bg-blue-100 transition"
+              >
+                {area}
+              </li>
             ))}
           </ul>
         </SectionWrapper>
       </InfoBlock>
 
+      {/* Current Research Projects */}
       <InfoBlock color="teal">
         <SectionWrapper title="Current Research Projects">
-          <ul className="list-disc list-inside space-y-2">
+          <div className="flex items-center gap-2 mb-3 text-teal-700">
+            <FiActivity size={22} />
+            <span className="font-semibold">Ongoing Work</span>
+          </div>
+          <ul className="space-y-2">
             {currentProjects.map((project, index) => (
-              <li key={index}>{project}</li>
+              <li
+                key={index}
+                className="bg-teal-50 border border-teal-100 rounded-md px-3 py-2 text-gray-800 hover:bg-teal-100 transition"
+              >
+                {project}
+              </li>
             ))}
           </ul>
         </SectionWrapper>
       </InfoBlock>
 
+      {/* PhD Research */}
       <InfoBlock color="purple">
         <SectionWrapper title="PhD Research">
-          <p>
-            <strong>Title:</strong> "FLOW-BASED PATTERN MATCHING APPROACH TO MITIGATE THE DENIAL OF SERVICE ATTACK ON COMMUNICATION NETWORK"
+          <p className="bg-purple-50 border border-purple-100 rounded-md p-4 text-gray-800 leading-relaxed">
+            <strong className="text-purple-700">Title:</strong> <br />
+            "FLOW-BASED PATTERN MATCHING APPROACH TO MITIGATE THE DENIAL OF SERVICE ATTACK ON COMMUNICATION NETWORK"
             <br /><br />
             Successfully completed PhD focusing on developing innovative approaches to detect and mitigate 
             various forms of Denial of Service attacks through pattern matching and machine learning techniques.
@@ -477,18 +635,28 @@ function Research() {
         </SectionWrapper>
       </InfoBlock>
 
+      {/* Research Tools & Resources */}
       <InfoBlock color="green">
         <SectionWrapper title="Research Tools & Resources">
+          <div className="flex items-center gap-2 mb-3 text-green-700">
+            <FiDatabase size={22} />
+            <span className="font-semibold">Tools & References</span>
+          </div>
           <div className="space-y-3">
             {researchLinks.map((link, index) => (
-              <div key={index}>
-                <a href={link.url} 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="text-blue-600 hover:underline inline-flex items-center">
+              <div
+                key={index}
+                className="bg-green-50 border border-green-100 rounded-md p-3 hover:bg-green-100 transition"
+              >
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline inline-flex items-center font-medium"
+                >
                   {link.title} <FiExternalLink className="ml-1" size={14} />
                 </a>
-                <p className="text-sm text-gray-600">{link.description}</p>
+                <p className="text-sm text-gray-700 mt-1">{link.description}</p>
               </div>
             ))}
           </div>
@@ -497,6 +665,7 @@ function Research() {
     </div>
   );
 }
+
 
 // Journals
 function JournalPubs() {
@@ -555,59 +724,108 @@ function JournalPubs() {
       authors: "Nitin Sakhare, Jyoti Bangare, Dr. Deepika Ajalkar, Dr. Gajanan Walunjkar, Dr. Madhuri Borawake, Dr. Anup Ingle",
       journal: "International Journal of Intelligent Systems and Applications in Engineering",
       details: "IJISAE, 2023, 11(6s), 337–344",
-      link: "https://ijisae.org/"
+      link: "https://ijisae.org/index.php/IJISAE/article/view/2860"
     },
     {
       title: "Artificial intelligence-based classification performance evaluation in monophonic and polyphonic indian classical instruments recognition with hybrid domain features amalgamation",
       authors: "Chitre, Abhijit V., Wanjale, Kirti, Deshmukh, Aradhanaa, Kosbatwar, Shyamsunder P., Ingle, Anup & Hundekari, Sheela",
       journal: "Journal of Information and Optimization Sciences",
       details: "2023, 44:3, 341–353, DOI: 10.47974/JIOS-1345",
-      link: "https://www.tandfonline.com/journals/tios20"
+      link: "https://www.tarupublications.com/doi/10.47974/JIOS-1345"
     },
     {
       title: "Investigating environmental sustainability applications using advanced monitoring systems",
       authors: "Sreenivasulu, K., Yadav, S., Pushpalatha, G., Sethumadhavan, R., Ingle, A., & Vijaya, R.",
       journal: "The Scientific Temper",
       details: "2023, 14(04), 1079–1084",
-      link: "https://scientifictemper.com/"
+      link: "https://scientifictemper.com/index.php/tst/article/view/939"
     },
     {
       title: "Researching brain-computer interfaces for enhancing communication and control in neurological disorders",
       authors: "Rathore, N., Acharjee2, P. B., Thivyabrabha, K., P, U., Ingle, A., & Davinder kumar",
       journal: "The Scientific Temper",
       details: "2023, 14(04), 1098–1105",
-      link: "https://scientifictemper.com/"
+      link: "https://scientifictemper.com/index.php/tst/article/view/871"
     },
     {
       title: "Smart Traffic: Integrating Machine Learning, and YOLO for Adaptive Traffic Management System",
       authors: "Sakhare, N., Hedau, M., B., G., Malpure, O., Shah, T., & Ingle, A.",
       journal: "International Journal of Intelligent Systems and Applications in Engineering",
       details: "2024, 12(12s), 347–355",
-      link: "https://ijisae.org/"
+      link: "https://ijisae.org/index.php/IJISAE/article/view/4520"
     }
   ];
 
+  const extractYear = (details) => {
+    const match = details.match(/(20\d{2}|19\d{2})/);
+    return match ? match[0] : null;
+  };
+
+  const highlightDetails = (text) => {
+    return text.replace(/(Volume|Vol|Issue|ISSN|DOI)/gi, "🔹$1");
+  };
+
   return (
     <SectionWrapper title="Journal Publications">
-      <div className="space-y-6">
-        {publications.map((pub, index) => (
-          <InfoBlock key={index} color={index % 2 === 0 ? 'teal' : 'blue'}>
-            <div className="border-l-2 border-teal-200 pl-4">
-              <h3 className="font-medium">{pub.title}</h3>
-              <p className="text-sm text-gray-600">{pub.authors}</p>
-              <p className="text-sm"><em>{pub.journal}</em></p>
-              <p className="text-xs text-gray-500">{pub.details}</p>
-              {pub.link && (
-                <a href={pub.link} 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="text-blue-600 hover:underline inline-flex items-center mt-2 text-sm">
-                  Journal Website <FiExternalLink className="ml-1" size={14} />
-                </a>
-              )}
-            </div>
-          </InfoBlock>
-        ))}
+      <div className="relative border-l-2 border-green-400 ml-4">
+        {publications.map((pub, index) => {
+          const year = extractYear(pub.details);
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ amount: 0.3 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="ml-6 relative mb-12"
+            >
+              {/* Timeline Dot */}
+              <span
+                className={`absolute -left-4 top-6 w-3 h-3 rounded-full ${
+                  index % 2 === 0 ? "bg-green-500" : "bg-green-400"
+                }`}
+              />
+
+              <div className="relative bg-green-50 border border-green-100 rounded-lg p-5 shadow-sm hover:shadow-md transition min-h-[150px]">
+                
+                {/* Year badge */}
+                {year && (
+                  <span className="absolute top-3 right-3 bg-green-100 text-green-800 text-xs font-semibold px-3 py-0.5 rounded-full shadow-sm">
+                    {year}
+                  </span>
+                )}
+
+                {/* Title */}
+                <h3 className="font-semibold text-gray-800 text-base mb-1 pr-16">
+                  {pub.title}
+                </h3>
+
+                {/* Authors */}
+                <p className="text-sm text-gray-700 mb-1">{pub.authors}</p>
+
+                {/* Journal */}
+                <p className="text-sm italic text-gray-600">{pub.journal}</p>
+
+                {/* Details */}
+                <p className="text-xs text-gray-600 mt-1">
+                  {highlightDetails(pub.details)}
+                </p>
+
+                {/* Link */}
+                {pub.link && (
+                  <a
+                    href={pub.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex items-center text-green-700 hover:underline text-sm"
+                  >
+                    Journal Website <FiExternalLink className="ml-1" size={14} />
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </SectionWrapper>
   );
@@ -756,25 +974,25 @@ function Books() {
       title: "Internet of Things",
       course: "Second Year Degree Course in ARTIFICIAL INTELLIGENCE & DATA SCIENCE (SPPU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/internet-things-second-year-sy-degree-artifical-intelligence-data-science-semester-4/p/itmacd4162afea0c"
     },
     {
       title: "Fundamentals of Artificial Intelligence and Machine Learning",
       course: "Second Year Degree Course in ARTIFICIAL INTELLIGENCE & DATA SCIENCE (SPPU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/fundamentals-artificial-intelligence-machine-learning-second-year-sy-degree-ai-ml-semester-4/p/itma80b1223298ac"
     },
     {
       title: "Modernized IoT",
       course: "Final Year Degree Course in ELECTRONICS & TELECOMMUNICATION ENGINEERING (SPPU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/modernized-iot-final-year-degree-course-electronics-telecommunication-engineering-semester-7-sppu/p/itmad50a3e06e835"
     },
     {
       title: "Mobile Computing",
       course: "Final Year Degree Course in ELECTRONICS & TELECOMMUNICATION ENGINEERING (SPPU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/mobile-computing-final-year-degree-course-electronics-telecommunication-engineering-semester-8-sppu/p/itma5a016621bb51?pid=9788119115044&lid=LSTBOK97881191150448JUZUP&marketplace=FLIPKART&cmpid=content_book_8965229628_gmc"
     },
     {
       title: "Cloud Computing",
@@ -786,37 +1004,37 @@ function Books() {
       title: "Image Processing",
       course: "Final Year Degree Course in COMPUTER ENGINEERING (SPPU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/image-processing-final-year-degree-course-computer-engineering-semester-8-sppu/p/itm0022ef1f48058"
     },
     {
       title: "Video Analytics",
       course: "Third Year (TY) B.Tech Course in Artificial Intelligence and Machine Learning AIML",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/video-analytics-third-year-ty-b-tech-artificial-intelligence-machine-learning-aiml-semester-6-sppu/p/itm06436aa3af9bc?pid=9788119115938&lid=LSTBOK97881191159380XSIPF&marketplace=FLIPKART&cmpid=content_book_8965229628_gmc"
     },
     {
       title: "Industrial Internet of Things",
       course: "Final Year Degree Course in ARTIFICIAL INTELLIGENCE & DATA SCIENCE (SPPU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/industrial-internet-things-final-year-b-tech-artificial-intelligence-data-science-ai-ds-semester-7-sppu/p/itm957e3a6776d27?pid=9788119117857&lid=LSTBOK9788119117857BXS774&marketplace=FLIPKART&cmpid=content_book_8965229628_gmc"
     },
     {
       title: "Wireless Sensor Networks",
       course: "Final Year BTech. Course in Electronics and Telecommunication Engineering/ Electronics Engineering (BATU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/wireless-sensor-networks-dbatu-final-year-b-tech-course-electronics-telecommunication-engineering-engineering-semester-7/p/itmab4a57f5dad4e?pid=9788119116942&lid=LSTBOK9788119116942TWLSSS&marketplace=FLIPKART&cmpid=content_book_8965229628_gmc"
     },
     {
       title: "Blockchain Technology",
       course: "Final Year BTech Course in Computer Engineering/ Computer Science and Engineering (BATU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/blockchain-technology-dbatu-semester-7-final-year-b-tech-course-computer-engineering-science-engineering/p/itm1a6aeb6c2942c?pid=9788119116249&lid=LSTBOK9788119116249Q5RX2A&marketplace=FLIPKART&cmpid=content_book_8965229628_gmc"
     },
     {
       title: "Deep Learning",
       course: "Final Year B.Tech Course In Computer Engineering, Computer Science & Engineering and Information Technology (BATU)",
       publisher: "Nirali Publication",
-      link: "https://www.niralipublication.com/"
+      link: "https://www.flipkart.com/deep-learning-dbatu-semester-7-final-year-b-tech-course-computer-engineering-science-engineering-information-technology/p/itm7753b86928502"
     }
   ];
 
@@ -834,7 +1052,7 @@ function Books() {
                    target="_blank" 
                    rel="noopener noreferrer"
                    className="text-blue-600 hover:underline inline-flex items-center text-sm">
-                  Publisher <FiExternalLink className="ml-1" size={14} />
+                  Purchase <FiExternalLink className="ml-1" size={14} />
                 </a>
               </div>
             </div>
@@ -875,14 +1093,14 @@ function Patents() {
 function IndustryInteraction() {
   const internships = [
     {
-      company: "Healthy Globe Smart Virtual Education Pvt. Ltd. (Padhega Bharat) (HGSVE)",
+      company: "Healthy Globe Smart Virtual Education Pvt. Ltd. (Padhega Bharat)",
       details: "05 Students (FYBTECH Students), Signed MOU",
-      link: "#"
+      link: "https://padhegabharat.com"
     },
     {
-      company: "Deep Learning Research and Development (DLRD)",
+      company: "Deep Learning Research & Development (DLRD)",
       details: "11 Students (FYBTECH/SYBTECH Students)",
-      link: "#"
+      link: "https://www.dlrd.in"
     },
     {
       company: "PrepBytes, Ghaziabad",
@@ -892,111 +1110,113 @@ function IndustryInteraction() {
     {
       company: "PROGO",
       details: "01 Student (SYBTECH Student)",
-      link: "#"
+      link: "https://www.progoconsultancyservices.com/"
     },
     {
       company: "Optimum Data Analytics (ODA), Pune",
       details: "Signed MOU, 20 Students (SYBTECH Students), Completed 4 Industrial Projects",
-      link: "#"
+      link: "https://www.optimumdataanalytics.com/"
     },
     {
-      company: "ASIC Networking Services Private Limited Pune",
+      company: "ASIC Networking Services Pvt. Ltd., Pune",
       details: "Signed MOU",
-      link: "#"
+      link: "http://www.asicindia.com"
     },
     {
       company: "RIMOTE Private Limited, Singapore",
-      details: "06 Students (Final Year BTECH Students), 02 Students (Third Year BTECH Students), Signed MOU",
+      details: "06 Students (Final Year), 02 Students (Third Year), Signed MOU",
       link: "https://rimote.io/"
     },
     {
       company: "Code Gurukul, Pune",
-      details: "40+ Students (Final Year BTECH/SYBTECH/TYBTECH Students)",
-      link: "https://www.codegurukul.com/"
+      details: "40+ Students (Final Year/SYBTECH/TYBTECH)",
+      link: "https://code‑gurukul.com/"
     },
     {
       company: "OXVSYS, Pune",
       details: "02 Students",
-      link: "#"
+      link: "https://oxvsys.com/"
     },
     {
       company: "INNOTEK IT SYSTEMS LLP",
       details: "40 Students (FYBTECH Students)",
-      link: "#"
+      link: "https://www.innoteksystem.com/"
     },
     {
       company: "CREATOR RESEARCH Pvt. Ltd.",
       details: "04 Students (FYBTECH Students)",
-      link: "#"
+      link: "https://creatorresearch.com/"
     },
     {
       company: "Intenics Private Limited, Jabalpur",
-      details: "03 Students (FYBTECH Students), Product Development under Internship – 01 Student (FYBTECH Student)",
-      link: "#"
+      details: "03 Students (FYBTECH Students), Product Development under Internship – 01 Student",
+      link: "https://intenics.in/"
     }
   ];
 
   const industryVisits = [
-    {
-      name: "Mag Power, Pune",
-      link: "#"
-    },
-    {
-      name: "Revogreen Technologies Pvt. Ltd., Pune",
-      link: "#"
-    },
-    {
-      name: "Halliburton, Pune",
-      link: "https://www.halliburton.com/"
-    },
-    {
-      name: "H. B. Fuller",
-      link: "https://www.hbfuller.com/"
-    },
-    {
-      name: "Intenics Private Limited, Jabalpur",
-      link: "#"
-    }
+    { name: "Mag Power, Pune", link: "https://magpowerpune.com/" },
+    { name: "Revogreen Technologies Pvt. Ltd., Pune", link: "https://revogreen.in/" },
+    { name: "Halliburton, Pune", link: "https://www.halliburton.com/" },
+    { name: "H. B. Fuller", link: "https://www.hbfuller.com/" },
+    { name: "Intenics Private Limited, Jabalpur", link: "https://intenics.in/" }
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
+      {/* Industry Internships */}
       <InfoBlock color="blue">
         <SectionWrapper title="Industry Internships Facilitated">
+          <div className="flex items-center gap-2 mb-3 text-blue-700">
+            <FiBriefcase size={22} />
+            <span className="font-semibold">Collaborations & Student Internships</span>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {internships.map((internship, index) => (
-              <div key={index} className="border-l-2 border-teal-200 pl-4">
-                <h3 className="font-medium">{internship.company}</h3>
-                <p className="text-sm text-gray-600">{internship.details}</p>
-                {internship.link && internship.link !== '#' && (
-                  <a href={internship.link} 
-                     target="_blank" 
-                     rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline inline-flex items-center mt-1 text-sm">
-                    Company Website <FiExternalLink className="ml-1" size={14} />
-                  </a>
-                )}
+            {internships.map((internship, i) => (
+              <div
+                key={i}
+                className="bg-blue-50 border border-blue-100 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+              >
+                <h3 className="font-medium text-gray-800">{internship.company}</h3>
+                <p className="text-sm text-gray-700 mt-1">{internship.details}</p>
+                <a
+                  href={internship.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center mt-2 text-sm text-blue-600 hover:underline"
+                >
+                  Company Website <FiExternalLink className="ml-1" size={14} />
+                </a>
               </div>
             ))}
           </div>
         </SectionWrapper>
       </InfoBlock>
 
+      {/* Industry Visits */}
       <InfoBlock color="teal">
         <SectionWrapper title="Industry Visits Organized">
+          <div className="flex items-center gap-2 mb-3 text-teal-700">
+            <FiMapPin size={22} />
+            <span className="font-semibold">Practical Exposure & Site Visits</span>
+          </div>
           <div className="flex flex-wrap gap-3">
-            {industryVisits.map((visit, index) => (
-              <div key={index} className="bg-gray-100 px-4 py-2 rounded-lg">
-                {visit.link && visit.link !== '#' ? (
-                  <a href={visit.link} 
-                     target="_blank" 
-                     rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline inline-flex items-center">
-                    {visit.name} <FiExternalLink className="ml-1" size={14} />
-                  </a>
-                ) : (
-                  <span>{visit.name}</span>
-                )}
+            {industryVisits.map((visit, j) => (
+              <div
+                key={j}
+                className="bg-teal-50 border border-teal-100 px-4 py-2 rounded-lg hover:bg-teal-100 transition"
+              >
+                <a
+                  href={visit.link !== "#" ? visit.link : "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center text-blue-600 ${
+                    visit.link !== "#" ? "hover:underline" : ""
+                  }`}
+                >
+                  {visit.name}
+                  {visit.link !== "#" && <FiExternalLink className="ml-1" size={14} />}
+                </a>
               </div>
             ))}
           </div>

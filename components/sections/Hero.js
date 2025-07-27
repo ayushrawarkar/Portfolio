@@ -86,7 +86,7 @@ export default function HeroSection() {
                 >
                     <div className="relative group rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300">
                         <Image
-                            src="/profile3.png"
+                            src="/profile11.png"
                             alt="Dr. Anup Ingle"
                             width={300}
                             height={300}

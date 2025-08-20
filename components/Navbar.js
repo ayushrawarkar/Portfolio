@@ -1,11 +1,16 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { NAV_LINKS } from '../constants/navLinks';
+// import { NAV_LINKS } from '../constants/navLinks';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const NAV_LINKS = [
+    { href: "#home", label: "Home" },
+    { href: "#about", label: "About" },
+    { href: "#projects", label: "AcademicWork" },
+    { href: "#contact", label: "Contact" },
+  ];
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-emerald-50/80 backdrop-blur-md shadow-sm px-6 py-2">
       <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center">
